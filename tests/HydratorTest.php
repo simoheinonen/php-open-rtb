@@ -153,6 +153,52 @@ JSON;
         $this->assertEquals('foo', $object->getUser()->getBuyeruid());
     }
 
+    public function testHydrateWithNonskippableVideo()
+    {
+        $json = <<< JSON
+{
+    "id": "foo",
+    "imp": [
+        {
+            "id": "1",
+            "video": {
+                "skip": 0
+            }
+        }
+    ]
+}
+JSON;
+
+        $object = new BidRequest();
+
+        Hydrator::hydrate(json_decode($json, true), $object);
+
+        $this->assertEquals(0, $object->getImp()->current()->getVideo()->getSkip());
+    }
+
+    public function testHydrateWithSkippableVideo()
+    {
+        $json = <<< JSON
+{
+    "id": "foo",
+    "imp": [
+        {
+            "id": "1",
+            "video": {
+                "skip": 1
+            }
+        }
+    ]
+}
+JSON;
+
+        $object = new BidRequest();
+
+        Hydrator::hydrate(json_decode($json, true), $object);
+
+        $this->assertEquals(1, $object->getImp()->current()->getVideo()->getSkip());
+    }
+
     public function jsonProvider()
     {
         return [
