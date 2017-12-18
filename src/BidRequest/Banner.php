@@ -112,6 +112,11 @@ class Banner implements Arrayable
     }
 
     /**
+     * @var int
+     */
+    protected $vcm;
+
+    /**
      * @param int $w
      * @return $this
      * @throws \PowerLinks\OpenRtb\Tools\Exceptions\ExceptionInvalidValue
@@ -436,6 +441,26 @@ class Banner implements Arrayable
     public function setExt(Ext $ext)
     {
         $this->ext = $ext;
+        return $this;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getVcm()
+    {
+        return $this->vcm;
+    }
+
+    /**
+     * @param int $vcm
+     * @return $this
+     * @throws \PowerLinks\OpenRtb\Tools\Exceptions\ExceptionInvalidValue
+     */
+    public function setVcm($vcm)
+    {
+        $this->vcm = $this->validatePositiveInt($vcm);
         return $this;
     }
 }
