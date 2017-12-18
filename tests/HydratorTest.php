@@ -199,6 +199,34 @@ JSON;
         $this->assertEquals(1, $object->getImp()->current()->getVideo()->getSkip());
     }
 
+
+    public function testHydrateWithCompanionadVcm()
+    {
+        $json = <<< JSON
+{
+    "id": "foo",
+    "imp": [
+        {
+            "id": "1",
+            "video": {
+                "companionad": [
+                    {
+                        "vcm": 6
+                    }
+                ]
+            }
+        }
+    ]
+}
+JSON;
+
+        $object = new BidRequest();
+
+        Hydrator::hydrate(json_decode($json, true), $object);
+
+        $this->assertEquals(6, $object->getImp()->current()->getVideo()->getCompanionad()->current()->getVcm());
+    }
+
     public function jsonProvider()
     {
         return [
